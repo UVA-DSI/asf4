@@ -162,9 +162,3 @@ static inline void _gpio_set_pin_function(const uint32_t gpio, const uint32_t fu
 		}
 	}
 }
-
-static inline void _port_event_init()
-{
-	hri_port_set_EVCTRL_reg(PORT, 0, CONF_PORTA_EVCTRL);
-	hri_port_set_EVCTRL_reg(PORT, 1, CONF_PORTB_EVCTRL);
-}
