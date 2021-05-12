@@ -36,7 +36,7 @@
 /**
  * \brief Assert function
  */
-void assert(const bool condition, const char *const file, const int line)
+void asf_assert(const bool condition, const char *const file, const int line)
 {
 	if (!(condition)) {
 		__asm("BKPT #0");
