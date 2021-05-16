@@ -58,8 +58,8 @@ OBJS +=  \
 hal/src/hal_io.o \
 saml21b/armcc/Device/SAML21B/Source/system_saml21.o \
 hpl/systick/hpl_systick.o \
+hal/src/hal_calendar.o \
 saml21b/armcc/Device/SAML21B/Source/ARM/startup_SAML21.o \
-usb/usb_protocol.o \
 usb/class/hid/device/hiddf_generic.o \
 usb/class/cdc/device/cdcdf_acm.o \
 hpl/mclk/hpl_mclk.o \
@@ -79,7 +79,7 @@ hal/utils/src/utils_assert.o \
 hpl/dmac/hpl_dmac.o \
 hpl/oscctrl/hpl_oscctrl.o \
 usb/class/hid/device/hiddf_keyboard.o \
-hal/src/hal_usart_sync.o \
+usb/usb_protocol.o \
 hpl/dac/hpl_dac.o \
 hpl/gclk/hpl_gclk.o \
 hal/src/hal_flash.o \
@@ -90,9 +90,11 @@ hpl/osc32kctrl/hpl_osc32kctrl.o \
 hpl/rtc/hpl_rtc.o \
 examples/driver_examples.o \
 driver_init.o \
+hal/src/hal_usart_async.o \
 hal/src/hal_adc_sync.o \
 hal/src/hal_dac_sync.o \
 hpl/sercom/hpl_sercom.o \
+hal/utils/src/utils_ringbuffer.o \
 hal/src/hal_gpio.o \
 usb/class/hid/device/hiddf_mouse.o \
 hal/utils/src/utils_event.o \
@@ -108,8 +110,8 @@ OBJS_AS_ARGS +=  \
 "hal/src/hal_io.o" \
 "saml21b/armcc/Device/SAML21B/Source/system_saml21.o" \
 "hpl/systick/hpl_systick.o" \
+"hal/src/hal_calendar.o" \
 "saml21b/armcc/Device/SAML21B/Source/ARM/startup_SAML21.o" \
-"usb/usb_protocol.o" \
 "usb/class/hid/device/hiddf_generic.o" \
 "usb/class/cdc/device/cdcdf_acm.o" \
 "hpl/mclk/hpl_mclk.o" \
@@ -129,7 +131,7 @@ OBJS_AS_ARGS +=  \
 "hpl/dmac/hpl_dmac.o" \
 "hpl/oscctrl/hpl_oscctrl.o" \
 "usb/class/hid/device/hiddf_keyboard.o" \
-"hal/src/hal_usart_sync.o" \
+"usb/usb_protocol.o" \
 "hpl/dac/hpl_dac.o" \
 "hpl/gclk/hpl_gclk.o" \
 "hal/src/hal_flash.o" \
@@ -140,9 +142,11 @@ OBJS_AS_ARGS +=  \
 "hpl/rtc/hpl_rtc.o" \
 "examples/driver_examples.o" \
 "driver_init.o" \
+"hal/src/hal_usart_async.o" \
 "hal/src/hal_adc_sync.o" \
 "hal/src/hal_dac_sync.o" \
 "hpl/sercom/hpl_sercom.o" \
+"hal/utils/src/utils_ringbuffer.o" \
 "hal/src/hal_gpio.o" \
 "usb/class/hid/device/hiddf_mouse.o" \
 "hal/utils/src/utils_event.o" \
@@ -159,6 +163,7 @@ DEPS := $(OBJS:%.o=%.d)
 
 DEPS_AS_ARGS +=  \
 "usb/usb_protocol.d" \
+"hal/src/hal_calendar.d" \
 "hal/utils/src/utils_event.d" \
 "hal/src/hal_io.d" \
 "hpl/systick/hpl_systick.d" \
@@ -186,16 +191,17 @@ DEPS_AS_ARGS +=  \
 "hal/src/hal_usb_device.d" \
 "usb_start.d" \
 "hal/src/hal_init.d" \
-"hal/src/hal_usart_sync.d" \
 "usb/class/hid/device/hiddf_keyboard.d" \
 "hpl/dac/hpl_dac.d" \
 "driver_init.d" \
 "hal/src/hal_adc_sync.d" \
+"hal/src/hal_usart_async.d" \
 "hpl/osc32kctrl/hpl_osc32kctrl.d" \
 "main.d" \
 "examples/driver_examples.d" \
 "hpl/rtc/hpl_rtc.d" \
 "hal/src/hal_sleep.d" \
+"hal/utils/src/utils_ringbuffer.d" \
 "hpl/sercom/hpl_sercom.d" \
 "hal/src/hal_dac_sync.d" \
 "hal/src/hal_gpio.d" \
