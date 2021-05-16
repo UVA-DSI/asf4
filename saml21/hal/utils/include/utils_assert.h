@@ -62,7 +62,7 @@ extern "C" {
 	if (!(condition))                                                                                                  \
 		__asm("BKPT #0");
 #else
-#define ASSERT_IMPL(condition, file, line) assert((condition), file, line)
+#define ASSERT_IMPL(condition, file, line) asf_assert((condition), file, line)
 #endif
 
 #else /* DEBUG */

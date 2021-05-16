@@ -110,7 +110,7 @@ void TRNG_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
 #endif
 
 /* Exception Table */
-__attribute__((section(".vectors"))) const DeviceVectors exception_table = {
+__attribute__((section(".vectors"), used)) const DeviceVectors exception_table = {
 
     /* Configure Initial Stack Pointer, using linker-generated symbols */
     .pvStack = (void *)(&_estack),
@@ -240,7 +240,7 @@ void Reset_Handler(void)
 	NVMCTRL->CTRLB.bit.MANW = 1;
 
 	/* Initialize the C library */
-	__libc_init_array();
+	//__libc_init_array();
 
 	/* Branch to main function */
 	main();
