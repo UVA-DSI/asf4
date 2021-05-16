@@ -792,15 +792,14 @@ drivers:
     variant: null
     clocks:
       domain_group: null
-  TIMER_0:
-    user_label: TIMER_0
-    definition: Atmel:SAML21_Drivers:0.0.1::SAML21G18B-MN::RTC::driver_config_definition::Timer::HAL:Driver:Timer
-    functionality: Timer
-    api: HAL:Driver:Timer
+  CALENDAR_0:
+    user_label: CALENDAR_0
+    definition: Atmel:SAML21_Drivers:0.0.1::SAML21G18B-MN::RTC::driver_config_definition::Calendar::HAL:Driver:Calendar
+    functionality: Calendar
+    api: HAL:Driver:Calendar
     configuration:
-      rtc_arch_comp_val: 32
       rtc_arch_init_reset: true
-      rtc_arch_prescaler: OFF(Peripheral clock divided by 1)
+      rtc_arch_prescaler: Peripheral clock divided by 1
       rtc_cmpeo0: false
       rtc_event_control: false
       rtc_ovfeo: false
@@ -1034,6 +1033,37 @@ drivers:
       tc_mode: Counter in 16-bit mode
       tc_prescaler: No division
       timer_event_control: false
+    optional_signals: []
+    variant: null
+    clocks:
+      domain_group:
+        nodes:
+        - name: TC
+          input: Generic clock generator 0
+          external: false
+          external_frequency: 0
+        configuration:
+          tc_gclk_selection: Generic clock generator 0
+  TIMER_0:
+    user_label: TIMER_0
+    definition: Atmel:SAML21_Drivers:0.0.1::SAML21G18B-MN::TC1::driver_config_definition::Timer::HAL:Driver:Timer
+    functionality: Timer
+    api: HAL:Driver:Timer
+    configuration:
+      tc_arch_dbgrun: false
+      tc_arch_evact: Event action disabled
+      tc_arch_mceo0: false
+      tc_arch_mceo1: false
+      tc_arch_ondemand: false
+      tc_arch_ovfeo: false
+      tc_arch_presync: Reload or reset counter on next GCLK
+      tc_arch_runstdby: false
+      tc_arch_tcei: false
+      tc_arch_tcinv: false
+      timer_advanced_configuration: false
+      timer_event_control: false
+      timer_prescaler: Divide by 8
+      timer_tick: 1000
     optional_signals: []
     variant: null
     clocks:

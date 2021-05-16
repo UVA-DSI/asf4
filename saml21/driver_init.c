@@ -12,19 +12,24 @@
 #include <hal_init.h>
 
 #include <hpl_adc_base.h>
-#include <hpl_rtc_base.h>
 
-struct timer_descriptor      TIMER_0;
-struct spi_m_sync_descriptor SPI_0;
-struct spi_m_sync_descriptor SPI_1;
+/*! The buffer size for USART */
+#define USART_0_BUFFER_SIZE 16
+
+struct spi_m_sync_descriptor  SPI_0;
+struct usart_async_descriptor USART_0;
+struct spi_m_sync_descriptor  SPI_1;
+struct timer_descriptor       TIMER_0;
+
+static uint8_t USART_0_buffer[USART_0_BUFFER_SIZE];
 
 struct adc_sync_descriptor ADC_0;
 
 struct flash_descriptor FLASH_0;
 
-struct i2c_m_sync_desc I2C_0;
+struct calendar_descriptor CALENDAR_0;
 
-struct usart_sync_descriptor USART_0;
+struct i2c_m_sync_desc I2C_0;
 
 struct pwm_descriptor PWM_0;
 
@@ -59,15 +64,15 @@ void FLASH_0_init(void)
 	flash_init(&FLASH_0, NVMCTRL);
 }
 
-/**
- * \brief Timer initialization function
- *
- * Enables Timer peripheral, clocks and initializes Timer driver
- */
-static void TIMER_0_init(void)
+void CALENDAR_0_CLOCK_init(void)
 {
 	hri_mclk_set_APBAMASK_RTC_bit(MCLK);
-	timer_init(&TIMER_0, RTC, _rtc_get_timer());
+}
+
+void CALENDAR_0_init(void)
+{
+	CALENDAR_0_CLOCK_init();
+	calendar_init(&CALENDAR_0, RTC);
 }
 
 void SPI_0_PORT_init(void)
@@ -165,7 +170,26 @@ void I2C_0_init(void)
 	I2C_0_PORT_init();
 }
 
-void USART_0_PORT_init(void)
+/**
+ * \brief USART Clock initialization function
+ *
+ * Enables register interface and peripheral clock
+ */
+void USART_0_CLOCK_init()
+{
+
+	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM2_GCLK_ID_CORE, CONF_GCLK_SERCOM2_CORE_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
+	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM2_GCLK_ID_SLOW, CONF_GCLK_SERCOM2_SLOW_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
+
+	hri_mclk_set_APBCMASK_SERCOM2_bit(MCLK);
+}
+
+/**
+ * \brief USART pinmux initialization function
+ *
+ * Set each required pin to USART functionality
+ */
+void USART_0_PORT_init()
 {
 
 	gpio_set_pin_function(PA08, PINMUX_PA08D_SERCOM2_PAD0);
@@ -173,18 +197,15 @@ void USART_0_PORT_init(void)
 	gpio_set_pin_function(PA09, PINMUX_PA09D_SERCOM2_PAD1);
 }
 
-void USART_0_CLOCK_init(void)
-{
-	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM2_GCLK_ID_CORE, CONF_GCLK_SERCOM2_CORE_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
-	hri_gclk_write_PCHCTRL_reg(GCLK, SERCOM2_GCLK_ID_SLOW, CONF_GCLK_SERCOM2_SLOW_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
-
-	hri_mclk_set_APBCMASK_SERCOM2_bit(MCLK);
-}
-
+/**
+ * \brief USART initialization function
+ *
+ * Enables USART peripheral, clocks and initializes USART driver
+ */
 void USART_0_init(void)
 {
 	USART_0_CLOCK_init();
-	usart_sync_init(&USART_0, SERCOM2, (void *)NULL);
+	usart_async_init(&USART_0, SERCOM2, USART_0_buffer, USART_0_BUFFER_SIZE, (void *)NULL);
 	USART_0_PORT_init();
 }
 
@@ -265,6 +286,20 @@ void PWM_0_init(void)
 	PWM_0_CLOCK_init();
 	PWM_0_PORT_init();
 	pwm_init(&PWM_0, TC0, _tc_get_pwm());
+}
+
+/**
+ * \brief Timer initialization function
+ *
+ * Enables Timer peripheral, clocks and initializes Timer driver
+ */
+static void TIMER_0_init(void)
+{
+
+	hri_mclk_set_APBCMASK_TC1_bit(MCLK);
+	hri_gclk_write_PCHCTRL_reg(GCLK, TC1_GCLK_ID, CONF_GCLK_TC1_SRC | (1 << GCLK_PCHCTRL_CHEN_Pos));
+
+	timer_init(&TIMER_0, TC1, _tc_get_timer());
 }
 
 void DAC_0_PORT_init(void)
@@ -398,12 +433,11 @@ void system_init(void)
 
 	FLASH_0_init();
 
-	TIMER_0_init();
+	CALENDAR_0_init();
 
 	SPI_0_init();
 
 	I2C_0_init();
-
 	USART_0_init();
 
 	SPI_1_init();
@@ -412,6 +446,7 @@ void system_init(void)
 
 	PWM_0_init();
 
+	TIMER_0_init();
 	DAC_0_init();
 
 	USB_DEVICE_INSTANCE_init();
