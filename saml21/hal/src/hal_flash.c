@@ -294,7 +294,10 @@ static int32_t flash_is_address_aligned(struct flash_descriptor *flash, const ui
  */
 static void flash_ready(struct _flash_device *device)
 {
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wcast-align"
 	struct flash_descriptor *const descr = CONTAINER_OF(device, struct flash_descriptor, dev);
+	#pragma GCC diagnostic pop
 	if (descr->callbacks.cb_ready) {
 		descr->callbacks.cb_ready(descr);
 	}
@@ -307,7 +310,10 @@ static void flash_ready(struct _flash_device *device)
  */
 static void flash_error(struct _flash_device *device)
 {
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wcast-align"
 	struct flash_descriptor *const descr = CONTAINER_OF(device, struct flash_descriptor, dev);
+	#pragma GCC diagnostic pop
 	if (descr->callbacks.cb_error) {
 		descr->callbacks.cb_error(descr);
 	}
