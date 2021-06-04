@@ -93,7 +93,7 @@
 // <i> Indicates whether configuration for OSC8M is enabled or not
 // <id> enable_osc16m
 #ifndef CONF_OSC16M_CONFIG
-#define CONF_OSC16M_CONFIG 0
+#define CONF_OSC16M_CONFIG 1
 #endif
 
 // <h> 16MHz Internal Oscillator Control
@@ -101,7 +101,7 @@
 // <i> Indicates whether 16MHz Internal Oscillator is enabled or not
 // <id> osc16m_arch_enable
 #ifndef CONF_OSC16M_ENABLE
-#define CONF_OSC16M_ENABLE 0
+#define CONF_OSC16M_ENABLE 1
 #endif
 
 // <q> On Demand Control
