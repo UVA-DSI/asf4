@@ -27,7 +27,9 @@
  *
  */
 
-#include "samd21.h"
+#include <stdint.h>
+
+#include "sam.h"
 
 /* Initialize segments */
 extern uint32_t _sfixed;
@@ -105,7 +107,7 @@ void PTC_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
 void I2S_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
 
 /* Exception Table */
-__attribute__((section(".vectors"))) const DeviceVectors exception_table = {
+__attribute__((section(".vectors"), used)) const DeviceVectors exception_table = {
 
     /* Configure Initial Stack Pointer, using linker-generated symbols */
     .pvStack = (void *)(&_estack),
@@ -190,7 +192,11 @@ __attribute__((section(".vectors"))) const DeviceVectors exception_table = {
 #else
     .pvReserved26 = (void *)(0UL), /* 26 Reserved */
 #endif
+#ifdef ID_I2S
     .pfnI2S_Handler = (void *)I2S_Handler, /* 27 Inter-IC Sound Interface */
+#else
+    .pvReserved27 = (void *)(0UL), /* 27 Reserved */
+#endif
     .pvReserved28   = (void *)(0UL)        /* 28 Reserved */
 };
 
@@ -235,7 +241,7 @@ void Reset_Handler(void)
 	NVMCTRL->CTRLB.bit.MANW = 1;
 
 	/* Initialize the C library */
-	__libc_init_array();
+	//__libc_init_array();
 
 	/* Branch to main function */
 	main();
