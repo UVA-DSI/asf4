@@ -505,10 +505,10 @@ drivers:
     functionality: System
     api: HAL:HPL:GCLK
     configuration:
-      $input: 32768
-      $input_id: 32kHz Ultra Low Power Internal Oscillator (OSCULP32K)
-      RESERVED_InputFreq: 32768
-      RESERVED_InputFreq_id: 32kHz Ultra Low Power Internal Oscillator (OSCULP32K)
+      $input: 400000
+      $input_id: External Crystal Oscillator 0.4-32MHz (XOSC)
+      RESERVED_InputFreq: 400000
+      RESERVED_InputFreq_id: External Crystal Oscillator 0.4-32MHz (XOSC)
       _$freq_output_Generic clock generator 0: 16000000
       _$freq_output_Generic clock generator 1: 48000000
       _$freq_output_Generic clock generator 2: 400000
@@ -686,15 +686,15 @@ drivers:
     api: HAL:HPL:OSCCTRL
     configuration:
       $input: 32768
-      $input_id: 32kHz External Crystal Oscillator (XOSC32K)
+      $input_id: Generic clock generator 3
       RESERVED_InputFreq: 32768
-      RESERVED_InputFreq_id: 32kHz External Crystal Oscillator (XOSC32K)
+      RESERVED_InputFreq_id: Generic clock generator 3
       _$freq_output_16MHz Internal Oscillator (OSC16M): 16000000
       _$freq_output_Digital Frequency Locked Loop (DFLL48M): 48000000
       _$freq_output_External Crystal Oscillator 0.4-32MHz (XOSC): 400000
       _$freq_output_Fractional Digital Phase Locked Loop (FDPLL96M): 47998976
       dfll48m_arch_enable: true
-      dfll48m_mode: Closed Loop Mode
+      dfll48m_mode: Open Loop Mode
       dfll48m_mul: 48000
       dfll48m_ref_clock: Generic clock generator 3
       dfll_arch_bplckc: false
@@ -860,12 +860,12 @@ drivers:
           external: false
           external_frequency: 0
         - name: Slow
-          input: Generic clock generator 0
+          input: Generic clock generator 3
           external: false
           external_frequency: 0
         configuration:
           core_gclk_selection: Generic clock generator 0
-          slow_gclk_selection: Generic clock generator 0
+          slow_gclk_selection: Generic clock generator 3
   I2C_0:
     user_label: I2C_0
     definition: Atmel:SAML21_Drivers:0.0.1::SAML21G18B-MN::SERCOM1::driver_config_definition::I2C.Master.Standard~2FFast-mode::HAL:Driver:I2C.Master.Sync

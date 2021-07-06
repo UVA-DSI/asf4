@@ -70,7 +70,7 @@
 // <i> Indicates whether On Demand Control is enabled or not
 // <id> xosc_arch_ondemand
 #ifndef CONF_XOSC_ONDEMAND
-#define CONF_XOSC_ONDEMAND 1
+#define CONF_XOSC_ONDEMAND 0
 #endif
 
 // <q> Run in Standby
@@ -78,6 +78,27 @@
 // <id> xosc_arch_runstdby
 #ifndef CONF_XOSC_RUNSTDBY
 #define CONF_XOSC_RUNSTDBY 0
+#endif
+
+// <q> Clock Switch Back
+// <i> Indicates whether Clock Switch Back is enabled or not
+// <id> xosc_arch_swben
+#ifndef CONF_XOSC_SWBEN
+#define CONF_XOSC_SWBEN 0
+#endif
+
+// <q> Clock Failure Detector
+// <i> Indicates whether Clock Failure Detector is enabled or not
+// <id> xosc_arch_cfden
+#ifndef CONF_XOSC_CFDEN
+#define CONF_XOSC_CFDEN 0
+#endif
+
+// <q> Clock Failure Detector Event Out
+// <i> Indicates whether Clock Failure Detector Event Out is enabled or not
+// <id> xosc_arch_cfdeo
+#ifndef CONF_XOSC_CFDEO
+#define CONF_XOSC_CFDEO 0
 #endif
 
 // <q> Crystal connected to XIN/XOUT Enable
@@ -284,7 +305,7 @@
 // <1=>Closed Loop Mode
 // <id> dfll48m_mode
 #ifndef CONF_DFLL_MODE
-#define CONF_DFLL_MODE 1
+#define CONF_DFLL_MODE 0
 #endif
 
 // <o> Coarse Maximum Step <0x0-0x1F>
